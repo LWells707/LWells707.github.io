@@ -3,28 +3,70 @@
     <head>
         <title>Some Random Website Made for Something</title>
         <style>
-             body{
-                background: rgb(50,170,215);
-                color: rgb(255, 174, 0);
+            body {
+                background: rgb(125, 198, 205);
+                color: rgb(45, 45, 45);
                 padding: 10px;
-                font-family: "Comic Sans MS";
+                font-family: arial;
             }
-            header{
-                font-size: 5.5em;
-                font-weight: bold;
+            #all-contents {
+                max-width: 800px;
+                margin: auto;
             }
-            h1{
-                background: rgb(138, 72, 224);
+
+            /* navigation menu */
+            nav {
+                background: rgb(239, 80, 41);
+                margin: 0 auto;
+                margin-bottom: 20px;
+                display: flex;
+                padding: 10px;
+            }
+            h1 {
+                display: flex;
+                align-items: center;
+                color: white;
+                flex: 1;
+                margin: 0;
+            }
+            #nav-ul {
+                list-style-image: none;
+            }
+            .nav-li {
+                display: inline-block;
+                padding: 0 10px;
+            }
+            a {
+                text-decoration: none;
+                color: #fff;
+            }
+
+            /* main container area beneath menu */
+            main {
+                background: rgb(245, 238, 219);
+                display: flex;
+            }
+            .sidebar {
+                margin-right: 25px;
+                padding: 10px;
+            }
+            .sidebar-img {
+                width: 200px;
+            }
+            .content {
+                flex: 1;
                 padding: 15px;
             }
-            h2{
-                background: rgba(255, 124, 2, 0.349);
-                border: 10px dashed rgb(4, 0, 255);
-                padding: 25px;
+            #interests {
+                border: 4px silver ridge;
+                padding: 8px;
+            }
+            h2, h3 {
+                margin: 0px;
             }
         </style>
     </head>
-    <body>
+    <body id = "all-contents">
         <!-- All content goes here -->
         <div> 
             <nav>
@@ -42,17 +84,17 @@
 
             <main>
                 <!--Sidebar section-->
-                <div>
-
+                <div class = "sidebar">
+                    <img class = "sidebar-img">
                 </div>
 
                 <!--Content section-->
-                <div>
+                <div class = "content">
                     <h2>Liam Wells</h2>
 
                     <p>Student at Northshore High School.</p>
                     <!--Interests-->
-                    <div>
+                    <div id = "interests">
                         <h3>Interests</h3>
                         <ul>
                             <li>Video Games</li>
