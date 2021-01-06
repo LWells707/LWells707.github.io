@@ -5,8 +5,10 @@
         <title>Some website made by Liam</title>
         <style type = "text/css">
             body{
-                background: rgb(50,170,215);
-                color: rgb(175, 45, 45);
+                background-image: url("sword.png");
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: rgba(175, 45, 45, 0.377);
                 padding: 10px;
                 font-family: "Comic Sans MS";
             }
@@ -22,7 +24,7 @@
 
             /* nav menu */
             nav{
-                background: rgb(255,255,0);
+                background: rgba(255, 255, 0, 0.336);
                 margin: 0 auto;
                 display: flex;
                 padding: 10px;
@@ -30,7 +32,7 @@
             h1{
                 display: flex;
                 align-items: center;
-                color: rgb(155,150,0);
+                color: rgb(147, 1, 245);
                 flex: 1;
             }
             #nav-ul{
@@ -47,7 +49,7 @@
 
             /* main container, beneath menu */
             main{
-                background: rgb(0,150, 150, 10);
+                background: rgba(0, 150, 150, 0.363);
                 display: flex;
             }
             .content{
@@ -66,7 +68,7 @@
             }
             
             #portfolio li {
-                background: #fff;
+                background: rgba(52, 2, 145, 0.404);
                 padding: 10px;
                 border-radius: 10px;
                 margin-bottom: 10px;
@@ -78,7 +80,7 @@
             
             #portfolio a {
                 text-decoration: none;
-                color: #454545;
+                color: #000000;
             }
         </style>
     <body>
@@ -89,7 +91,7 @@
                     <li class="nav-li">
                         <a class="nav a" href="index.html">Home</a>
                     </li>
-                    <li class="nav li">
+                    <li class="nav-li">
                         <a class="nav a" href="portfolio.html">Portfolio</a>
                     </li>
                 </ul>
@@ -97,7 +99,7 @@
             <main>
                 <div class="content">
                     <h1>Portfolio</h1>
-                    <ul id="Portfolio">
+                    <ul id="portfolio">
                         <li><a href="projects/platformer/">Platformer : A cannon - dodging, collectible - grabbing adventure game for Halleb0t</a></li>
                         <li><a href="projects/bouncing-box/">Bouncing Box : A project that gives you a taste of game development on the web </a></li>
                         <li><a href="projects/circularity/">Circularity : A motion poem using random number generation and velocity applied to circle shapes...</a></li>
