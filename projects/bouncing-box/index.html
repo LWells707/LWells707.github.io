@@ -79,9 +79,7 @@
 			turn it around! 
 			*/
 			function update() {
-                positionX = positionX + speed;
-                positionY = positionY + speedY;
-                moveBoxTo(positionX, positionY);
+                
                 if(positionX > boardWidth){
                     speed = -speed;
                 }
@@ -94,6 +92,9 @@
                 if(positionY < 0){
                     speedY = -speedY;
                 }
+                positionX = positionX + speed;
+                positionY = positionY + speedY;
+                moveBoxTo(positionX, positionY);
 			};
 
 			/* 
