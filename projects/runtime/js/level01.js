@@ -41,14 +41,14 @@ var level01 = function (window) {
                 createLaser(objX, objY);
             }
             else {
-                for(s = 0; s < 289; s++){
+                for(s = 0; s < 72; s++){
                     createSquirrel(objX,objY);
                 }
             }
         }
         window.levelData = levelData;
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(true);
+        game.setDebugMode(false);
 
         // TODO 6 and on go here
         // BEGIN EDITING YOUR CODE HERE
@@ -112,8 +112,6 @@ var level01 = function (window) {
                 game.increaseScore(" squirrel ");
             }
         }
-    
-        createSquirrel(300);
         // DO NOT EDIT CODE BELOW HERE
     }
 };
