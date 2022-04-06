@@ -10,6 +10,18 @@ function runProgram(){
   const BOARD_HEIGHT = 600;
   const BOARD_WIDTH = 1000;
   // Game Item Objects  
+
+    $("#console").hide();
+    var consoleShown = false;
+
+    var SETTINGS = {
+      PLAYER_ONE_SPEED: parseInt($("#p1Speed").val()),
+      PLAYER_TWO_SPEED: parseInt($("#p2Speed").val()),
+      BALL_X_SPEED: parseInt($("#ballSpeedX").val()),
+      BALL_Y_SPEED: parseInt($("#ballSpeedY").val()),
+      SCORE_TO_WIN: parseInt($("#scoreToWin").val())
+    }
+
     $("#continueButton").hide();
     var player1 = Player($("#player1"), 10);
     var player2 = Player($("#player2"), 980);
@@ -27,10 +39,15 @@ function runProgram(){
       left: 0,
       right: 0
     } 
+
+    
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
-  $(document).on('keydown', movePaddle); 
+  $(document).on('keydown', buttonPress); 
   $(document).on('keyup', stopPaddle);
+  $("#consoleInput").on("click", updateSettings);
+
+  
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -41,13 +58,13 @@ function runProgram(){
   function newFrame() {
     updatePosition(player1);
     redrawGameItem(player1);
-    playerBorder(player1);
+    playerBorder(player1, SETTINGS.PLAYER_ONE_SPEED);
 
     updatePosition(player2);
     redrawGameItem(player2);
-    playerBorder(player2);
-    doCollide(player2)
+    playerBorder(player2, SETTINGS.PLAYER_TWO_SPEED);
 
+    doCollide();
     redrawGameItem(ball);
     updatePosition(ball);
     ballBorder();
@@ -55,25 +72,33 @@ function runProgram(){
     updateScoreBoard();
 
     endGame();
-
   }
   /* 
   Called in response to events.
   */
   //Controller for the first paddle
-  function movePaddle(event) {
-    if(event.key == "w"){
-        player1.ySpeed = -10
+  function buttonPress(event) {
+    if((event.key === "`") && (consoleShown === false)){
+      $("#console").show();
+      consoleShown = true;
     }
-    if(event.key == "s"){
-        player1.ySpeed = 10
+    else if((event.key === "`") && (consoleShown === true)){
+      $("#console").hide();
+      consoleShown = false;
     }
-    if(event.key == "ArrowUp"){
-      player2.ySpeed = -10
-    }
-    if(event.key == "ArrowDown"){
-        player2.ySpeed = 10
-    }
+      if(event.key == "w"){
+        player1.ySpeed = -SETTINGS.PLAYER_ONE_SPEED
+      }
+      if(event.key == "s"){
+          player1.ySpeed = SETTINGS.PLAYER_ONE_SPEED
+      }
+      if(event.key == "ArrowUp"){
+        player2.ySpeed = -SETTINGS.PLAYER_TWO_SPEED
+      }
+      if(event.key == "ArrowDown"){
+         player2.ySpeed = SETTINGS.PLAYER_TWO_SPEED
+      }
+    
   }
   //When key is unpressed, the paddles stop
   function stopPaddle(event){
@@ -88,6 +113,19 @@ function runProgram(){
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  function updateSettings(event){
+    event.preventDefault();
+    var updatedSettingsVal = $('form').serializeArray();
+
+    SETTINGS.PLAYER_ONE_SPEED = parseInt(updatedSettingsVal[0].value)
+    SETTINGS.PLAYER_TWO_SPEED = parseInt(updatedSettingsVal[1].value)
+    SETTINGS.BALL_X_SPEED = parseInt(updatedSettingsVal[2].value)
+    SETTINGS.BALL_Y_SPEED = parseInt(updatedSettingsVal[3].value)
+    SETTINGS.SCORE_TO_WIN = parseInt(updatedSettingsVal[4].value)
+    
+  }
+
+
   //Factory function to create the paddles
   function Player(id, xBound){
     var newPlayer = {
@@ -100,12 +138,12 @@ function runProgram(){
     return newPlayer;
 }
 //Establishes the bounding box for the paddles so they don't leave the screem
-function playerBorder(object){
+function playerBorder(object, maxSpeed){
   if (object.yPos + 75 > BOARD_HEIGHT){
-    object.yPos -= 10;
+    object.yPos -= maxSpeed;
   }
   if (object.yPos < 0){
-    object.yPos += 10;
+    object.yPos += maxSpeed;
   }
 }
 //Handles collision between the ball and the paddles
@@ -163,8 +201,22 @@ function ballBorder(){
     ball.id.hide();
     if(ball.xPos < -50){
 
-      var xSpeed = -Math.abs(randomizeSpeed());
-      var ySpeed = randomizeSpeed();
+      var xSpeed
+      var ySpeed
+
+      if(SETTINGS.BALL_X_SPEED == 2){
+        xSpeed = -Math.abs(randomizeSpeed());
+      }
+      else{
+        xSpeed = -SETTINGS.BALL_X_SPEED;
+      }
+
+      if(SETTINGS.BALL_Y_SPEED == 2){
+        ySpeed = randomizeSpeed();
+      }
+      else{
+        xSpeed = SETTINGS.BALL_Y_SPEED;
+      }
      
       ball.xSpeed = xSpeed;
       ball.ySpeed = ySpeed;
@@ -180,9 +232,22 @@ function ballBorder(){
     ball.xSpeed = 2;
     ball.id.hide();
     if(ball.xPos > BOARD_WIDTH + 50){
+      var xSpeed
+      var ySpeed
 
-      var xSpeed = Math.abs(randomizeSpeed());
-      var ySpeed = randomizeSpeed();
+      if(SETTINGS.BALL_X_SPEED == 2){
+        xSpeed = Math.abs(randomizeSpeed());
+      }
+      else{
+        xSpeed = SETTINGS.BALL_X_SPEED;
+      }
+
+      if(SETTINGS.BALL_Y_SPEED == 2){
+        ySpeed = randomizeSpeed();
+      }
+      else{
+        xSpeed = SETTINGS.BALL_Y_SPEED;
+      }
 
       ball.xSpeed = xSpeed
       ball.ySpeed = ySpeed
@@ -194,18 +259,18 @@ function ballBorder(){
   }
 }
 function randomizeSpeed(){
-  var speed = Math.random()
+  var randNum = Math.random()
   var returnSpeed
-  if (speed >= 0.75){
+  if (randNum >= 0.75){
     returnSpeed = 2.5
   }
-  else if(0.75 > speed >= 0.5){
+  if(0.75 > randNum >= 0.5){
     returnSpeed = 2
   }
-  else if(0.5 > speed >= 0.25){
+  if(0.5 > randNum >= 0.25){
     returnSpeed = -2.5
   }
-  else{
+  if(0.25 > randNum){
     returnSpeed = -2
   }
   return returnSpeed
@@ -236,7 +301,7 @@ function randomizeSpeed(){
     runProgram();
   }
   function endGame() {
-    if(score.left == 11 || score.right == 11){
+    if(score.left >= SETTINGS.SCORE_TO_WIN || score.right >= SETTINGS.SCORE_TO_WIN){
       // stop the interval timer
       clearInterval(interval);
 
